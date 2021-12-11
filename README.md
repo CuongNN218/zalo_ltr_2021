@@ -2,6 +2,12 @@
 Source code for Zalo AI 2021 submission
 
 # Solution:
+
+## Pipeline
+
+We use the pipepline in the picture below:
+
+
 ## Train BM 25
 To train BM25: ``python bm25_train.py``
 Use load_docs to save time for later run: ``python bm25_train.py --load_docs``
@@ -30,7 +36,8 @@ $DATA_FILE= corpus.txt
 $SAVE_DIR= /path/to/your/save/directory
 
 Run the following cmd to train Masked Language Model:
-```python run_mlm.py \
+```
+python run_mlm.py \
     --model_name_or_path $MODEL_NAME \
     --train_file $DATA_FILE \
     --do_train \
@@ -79,7 +86,8 @@ python run_pre_training.py \
   --late_mlm
 ```
 We use this setting to run cocondenser:
-```python run_pre_training.py   \
+```
+python run_pre_training.py   \
     --output_dir saved_model_1/  \
     --model_name_or_path ../Legal_Text_Retrieval/lm/large/checkpoint-30000   \
     --do_train   
@@ -175,7 +183,11 @@ Tips: Use small learning rate for model convergence
 ## Prediction
 
 To get the prediction, we use 4 2-round trained models with mlm pretrained is Large PhoBert, PhoBert-Large-Condenser, 
-Pho-Bert-Large-CoCondenser and viBert-based. We utilized the weighted ensemble technique with weight [0.1] ,repectively.
+Pho-Bert-Large-CoCondenser and viBert-based. Final models and their corresponding weights are below:
+- 1 x PhoBert-Large-Round2: 0.1
+- 1 x Condenser-PhoBert-Large-round2: 0.3
+- 1 x Co-Condenser-PhoBert-Large-round2: 0.4
+- 1 x FPTAI/ViBert-base-round2: 0.2
 To get the submission, run the following command:
 ```python3 predict.py --data /path/to/test/data```
 
