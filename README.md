@@ -78,7 +78,7 @@ python run_pre_training.py \
   --weight_decay 0.01 \
   --late_mlm
 ```
-
+We use this setting to run cocondenser:
 ```python run_pre_training.py   \
     --output_dir saved_model_1/  \
     --model_name_or_path ../Legal_Text_Retrieval/lm/large/checkpoint-30000   \
@@ -103,7 +103,8 @@ python run_pre_training.py \
 
 ## Train cocodenser:
 Run the following cmd to train co-condenser model:
-```python  run_co_pre_training.py   \
+```
+python  run_co_pre_training.py   \
     --output_dir saved_model/cocondenser/   \
     --model_name_or_path $CODENSER_CKPT   \
     --do_train   \
@@ -132,7 +133,8 @@ Run the following cmd to train co-condenser model:
 ### Round 1: using negative pairs of sentence generated from BM25
 For each Masked Language Model, we trained a sentence transformer corresponding to it
 Run the following command to train round 1 of sentence bert model
-```python train_sentence_bert.py 
+```
+python train_sentence_bert.py 
     --pretrained_model /path/to/your/pretrained/mlm/model\
     --max_seq_length 256 \
     --pair_data_path /path/to/your/negative/pairs/data\
@@ -147,7 +149,8 @@ here we pick $NUM_VAL is 50 * 20 and 50 * 50 for top 20 and 50 pairs data respec
 
 ### Round 2: using hard negative pairs create from Round 1 model
 - Step 1: Run the following cmd to generate hard negative pairs from round 1 model:
-```python hard_negative_mining.py \
+```
+python hard_negative_mining.py \
     --model_path /path/to/your/sentence/bert/model\
     --data_path /path/to/the/lagal/corpus/json\
     --save_path /path/to/directory/to/save/neg/pairs\
@@ -156,7 +159,8 @@ here we pick $NUM_VAL is 50 * 20 and 50 * 50 for top 20 and 50 pairs data respec
 Here we pick top k is 20 and 50.
 - Use the data generated from step 1 to train round 2 of sentence bert model for each model from round 1:
 To train round 2, please use the following command:
-```python train_sentence_bert.py 
+```
+python train_sentence_bert.py 
     --pretrained_model /path/to/your/pretrained/mlm/model\
     --max_seq_length 256 \
     --pair_data_path /path/to/your/negative/pairs/data\
@@ -173,6 +177,6 @@ Tips: Use small learning rate for model convergence
 To get the prediction, we use 4 2-round trained models with mlm pretrained is Large PhoBert, PhoBert-Large-Condenser, 
 Pho-Bert-Large-CoCondenser and viBert-based. We utilized the weighted ensemble technique with weight [0.1] ,repectively.
 To get the submission, run the following command:
-``python3 predict.py --data /path/to/test/data``
+```python3 predict.py --data /path/to/test/data```
 
 
