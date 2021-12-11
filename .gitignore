@@ -132,3 +132,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Generated folder
+./generated_data/
+./zac2021-ltr-data/
