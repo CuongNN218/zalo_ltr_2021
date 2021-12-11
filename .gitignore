@@ -25,7 +25,11 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.pkl
 MANIFEST
+# avoid load pretrained and data
+saved_model/
+zac2021-ltr-data/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
