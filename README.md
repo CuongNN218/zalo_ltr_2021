@@ -6,6 +6,9 @@ Source code for Zalo AI 2021 submission
 ## Pipeline
 
 We use the pipepline in the picture below:
+<p align="center">
+    <img src="figs/pipeline.png">
+</p> 
 
 ## Data
 Raw data is in ``zac2021-ltr-data``
@@ -62,11 +65,15 @@ Original source code here: https://github.com/luyug/Condenser (we modified sever
 Note: Use cls_pooling for condenser
 
 ### Create data for Condenser: 
-Run: ``python helper/create_train.py --tokenizer_name $MODEL_NAME --file $DATA_FILE --save_to $SAVE_CONDENSER --max_len $MAX_LENGTH``
+ 
+```
+python helper/create_train.py --tokenizer_name $MODEL_NAME --file $DATA_FILE --save_to $SAVE_CONDENSER \ --max_len $MAX_LENGTH 
+
 $MODEL_NAME=vinai/phobert-large
 $MAX_LENGTH=256
 $DATA_FILE=../generated_data/corpus.txt
 $SAVE_CONDENSER=../generated_data/
+```
 
 $MODEL_NAME checkpoint from finetuned language model 
 
@@ -91,7 +98,7 @@ python run_pre_training.py \
   --weight_decay 0.01 \
   --late_mlm
 ```
-We use this setting to run cocondenser:
+We use this setting to run Condenser:
 ```
 python run_pre_training.py   \
     --output_dir saved_model_1/  \
@@ -116,6 +123,15 @@ python run_pre_training.py   \
 
 
 ## Train cocodenser:
+First, we create data for cocodenser
+
+```
+python helper/create_train_co.py \
+    --tokenizer vinai/phobert-large \
+    --file ../generated_data/cocondenser/corpus.txt.json \
+    --save_to data/large_co/corpus.txt.json \
+```
+
 Run the following cmd to train co-condenser model:
 ```
 python  run_co_pre_training.py   \
