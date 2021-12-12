@@ -7,6 +7,12 @@ Source code for Zalo AI 2021 submission
 
 We use the pipepline in the picture below:
 
+## Data
+Raw data is in ``zac2021-ltr-data``
+
+## Create Folder
+
+Create a new folder for generated data for training ``mkdir generated_data``
 
 ## Train BM 25
 To train BM25: ``python bm25_train.py``
@@ -181,14 +187,36 @@ python train_sentence_bert.py
 Tips: Use small learning rate for model convergence
 
 ## Prediction
-
+### For reproducing result.
 To get the prediction, we use 4 2-round trained models with mlm pretrained is Large PhoBert, PhoBert-Large-Condenser, 
 Pho-Bert-Large-CoCondenser and viBert-based. Final models and their corresponding weights are below:
 - 1 x PhoBert-Large-Round2: 0.1
 - 1 x Condenser-PhoBert-Large-round2: 0.3
 - 1 x Co-Condenser-PhoBert-Large-round2: 0.4
 - 1 x FPTAI/ViBert-base-round2: 0.2
-To get the submission, run the following command:
-```python3 predict.py --data /path/to/test/data```
 
+``doc_refers_saved.pkl`` and ``legal_dict.json`` are generated in traning bm25 process and create corpus, respectively. 
+We also provide a file to re-generate it before inference.
+```
+python3 create_corpus.py --data zac2021-ltr-data --save_dir generated_data
+python3 create_doc_refers.py --raw_data zac2021-ltr-data --save_path generated_data
+```
+We also provide embedding vectors which is pre-encoded by ensemble model in ``encoded_legal_data.pkl``.
+If you want to verified and get the final submission, please run the following command:
+```
+python3 predict.py --data /path/to/test/json/data --legal_data generated_data/doc_refers_saved.pkl --precode
+```
+
+If you already have ``encoded_legal_data.pkl``, run the following command:
+```
+python3 predict.py --data /path/to/test/json/data --legal_data generated_data/doc_refers_saved.pkl
+```
+
+### Just for inference
+
+Run the following command 
+```
+chmod +x predict.sh
+./predict.sh
+```
 
