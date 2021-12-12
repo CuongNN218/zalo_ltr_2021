@@ -1,5 +1,4 @@
 FROM pytorch/pytorch:1.8.0-cuda11.1-cudnn8-runtime
-
 RUN apt update && apt install -y zip htop screen libgl1-mesa-glx
 
 

@@ -12,7 +12,9 @@ from utils import bm25_tokenizer
 from sentence_transformers import SentenceTransformer, util
 
 def encode_legal_data(legal_dict_json, models):
+    # print(legal_dict_json)
     doc_data = json.load(open(legal_dict_json))
+    # print(len(doc_data))
     list_emb_models = []
     for model in models:
         emb2_list = []
@@ -61,7 +63,8 @@ def load_question_json(question_path):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data", default="data", type=str)
+    parser.add_argument("--data", default="", type=str, help="for loading question")
+    parser.add_argument("--raw_data", default="zac2021-ltr-data", type=str)
     parser.add_argument("--saved_model", default="saved_model", type=str)
     parser.add_argument("--legal_dict_json", default="generated_data/legal_dict.json", type=str)
     parser.add_argument("--bm25_path", default="saved_model/bm25_Plus_04_06_model_full_manual_stopword", type=str)
@@ -94,7 +97,7 @@ if __name__ == "__main__":
         doc_refers = pickle.load(doc_refer_file)
     # load pre encoded for legal corpus
     if args.encode_legal_data:
-        emb_legal_data = encode_legal_data(args.raw_data, models)
+        emb_legal_data = encode_legal_data(args.legal_dict_json, models)
     else:
         emb_legal_data = load_encoded_legal_corpus('encoded_legal_data.pkl')
 

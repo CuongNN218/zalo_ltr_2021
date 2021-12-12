@@ -14,7 +14,7 @@ if __name__ == '__main__':
     parser.add_argument("--data_dir", default="./data", type=str, help="path to training data")
     parser.add_argument("--save_dir", default="./generated_data", type=str, help="path to training data")
     args = parser.parse_args()
-
+    os.makedirs(args.save_dir,exist_ok=True)
     cp = open(os.path.join(args.save_dir, "corpus.txt"), "w")
     corpus_path = os.path.join(args.data_dir, "legal_corpus.json")
 
@@ -22,6 +22,7 @@ if __name__ == '__main__':
 
     save_dict = {}
     co_f = open(os.path.join(args.save_dir, "cocondenser_data.json"), "w")
+    count = 0
     for law_article in tqdm(data):
         law_id = law_article["law_id"]
         law_articles = law_article["articles"]
@@ -42,16 +43,16 @@ if __name__ == '__main__':
                     article_full = article_title + ". " + p
                     article_full = article_full.replace("\n", " ")
                     spans.append(p)
-                    concat_id = law_id + "_" + article_id + "_" + str(idx)
-                    if concat_id not in save_dict:
-                        save_dict[concat_id] = {"title": article_title, "text": article_text}
             co_f.write("#".join(spans) + "\n")
             
             concat_id = law_id + "_" + article_id
             if concat_id not in save_dict:
+                count += 1
                 save_dict[concat_id] = {"title": article_title, "text": article_text}
     
     co_f.close()
+    print(count)
+    exit()
     print("Create legal dict from raw data")
     with open(os.path.join(args.save_dir, "legal_dict.json"), "w") as outfile:
         json.dump(save_dict, outfile)
