@@ -62,7 +62,6 @@ python run_mlm.py \
 
 ##  Train condenser and cocondenser from language model checkpoint
 Original source code here: https://github.com/luyug/Condenser (we modified several lines of code to make it compatible with current version of transformers)
-Note: Use cls_pooling for condenser
 
 ### Create data for Condenser: 
  
@@ -163,6 +162,8 @@ python  run_co_pre_training.py   \
 ### Round 1: using negative pairs of sentence generated from BM25
 For each Masked Language Model, we trained a sentence transformer corresponding to it
 Run the following command to train round 1 of sentence bert model
+
+Note: Use cls_pooling for condenser and cocodenser
 ```
 python train_sentence_bert.py 
     --pretrained_model /path/to/your/pretrained/mlm/model\
