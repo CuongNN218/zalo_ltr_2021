@@ -52,10 +52,10 @@ if __name__ == '__main__':
                 save_dict[concat_id] = {"title": article_title, "text": article_text}
     
     co_f.close()
-    
+    print("Create legal dict from raw data")
     with open(os.path.join(args.save_dir, "legal_dict.json"), "w") as outfile:
         json.dump(save_dict, outfile)
-
+    print("Finish")
     corpus_path_train = os.path.join(args.data_dir, "train_question_answer.json")
     items = load_json(corpus_path_train)
 
