@@ -23,6 +23,7 @@ if __name__ == '__main__':
     parser.add_argument("--epochs", default=5, type=int, help="Number of training epochs")
     parser.add_argument("--saved_model", default="", type=str, help="path to savd model directory.")
     parser.add_argument("--batch_size", type=int, default=32, help="batch size")
+    parser.add_argument("--lr", type=float, default=1e-5, help="learning rate for training")
     args = parser.parse_args()
 
     logging.basicConfig(format='%(asctime)s - %(message)s',
@@ -30,7 +31,7 @@ if __name__ == '__main__':
                         level=logging.INFO,
                         handlers=[LoggingHandler()])
     if round == 1:
-        print(f"Training round {1}")
+        print(f"Training round 1")
         word_embedding_model = models.Transformer(args.pretrained_model, max_seq_length=args.max_seq_length)
         pooling_model = models.Pooling(word_embedding_model.get_word_embedding_dimension())
         model = SentenceTransformer(modules=[word_embedding_model, pooling_model])
@@ -62,7 +63,7 @@ if __name__ == '__main__':
 
     print("Number of sample for training: ", len(train_examples))
 
-    train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=32)
+    train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=args.batch_size)
     train_loss = losses.ContrastiveLoss(model)
 
     output_path = args.saved_model
@@ -73,6 +74,7 @@ if __name__ == '__main__':
     model.fit(train_objectives=[(train_dataloader, train_loss)], 
             epochs=args.epochs, 
             warmup_steps=1000,
+            optimizer_params={'lr': 1e-5},
             save_best_model=True,
             evaluator=evaluator,
             evaluation_steps=args.num_eval,

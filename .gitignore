@@ -31,6 +31,8 @@ MANIFEST
 saved_model/
 zac2021-ltr-data/
 legal_data/
+generated_data/
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -132,3 +134,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Generated folder
+./generated_data/
+./zac2021-ltr-data/

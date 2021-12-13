@@ -28,8 +28,9 @@ tokenizer = AutoTokenizer.from_pretrained(args.tokenizer, use_fast=True)
 
 
 def encode_one(line):
-    item = json.loads(line)
-    spans = item['spans']
+    # item = json.loads(line)
+    # spans = item['spans']
+    spans = line.split("#")
     if len(spans) <= 1:
         return None
     tokenized = [

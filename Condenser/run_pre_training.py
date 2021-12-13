@@ -168,7 +168,8 @@ def main():
             if (model_args.model_name_or_path is not None and os.path.isdir(model_args.model_name_or_path))
             else None
         )
-        trainer.train(model_path=model_path)
+        # trainer.train(model_path=model_path)
+        trainer.train()
         trainer.save_model()  # Saves the tokenizer too for easy upload
 
     # Evaluation

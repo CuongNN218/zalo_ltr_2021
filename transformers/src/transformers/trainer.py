@@ -635,8 +635,8 @@ class Trainer:
             raise ValueError("Trainer: training requires a train_dataset.")
 
         train_dataset = self.train_dataset
-        if is_datasets_available() and isinstance(train_dataset, datasets.Dataset):
-            train_dataset = self._remove_unused_columns(train_dataset, description="training")
+        # if is_datasets_available() and isinstance(train_dataset, datasets.Dataset):
+        #     train_dataset = self._remove_unused_columns(train_dataset, description="training")
 
         if isinstance(train_dataset, torch.utils.data.IterableDataset):
             if self.args.world_size > 1:
