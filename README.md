@@ -9,7 +9,26 @@ We use the pipepline in the picture below:
 <p align="center">
     <img src="figs/pipeline.png">
 </p> 
+Our pipeline is combination of BM25 and Sentence Transfromer. 
+Let us describe our approach briefly:
 
+- Step 1: We trained a BM25 model for searching similar pair. We used BM25 for create negative sentence pair for training Sentence Transformer in Step 3.
+- Step 1: We trained Masked Language Model using legal_corpus from training data. Models are used
+```
+VinAI/PhoBert-Large
+FPTAI/ViBert
+```
+- Step 3: Train Sentence Transformer + Contrative loss with 4 settings:
+```
+1. MLM PhoBert Large -> Sentence Transformer 
+2. MLM ViBert -> Sentence Transformer
+3. MLM PhoBert Large -> Condenser -> Sentence Transformer
+4. MLM PhoBert Large -> Co-Condenser -> Sentence Transformer
+```
+- Step 4: Using 4 models from step 3 to generate corresponding hard negative sentences for training round 2 in step 5.
+- Step 5: Training 4 above models round 2.
+- Step 5: Ensemble 4 models from step 5.
+ 
 ## Data
 Raw data is in ``zac2021-ltr-data``
 
@@ -237,3 +256,5 @@ chmod +x predict.sh
 ./predict.sh
 ```
 
+## Contributors:
+Thanks our teamates for great works: [Dzung Le](https://github.com/dzunglt24), [Hong Nguyen](https://github.com/Hong7Cong)
