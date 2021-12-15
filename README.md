@@ -259,12 +259,12 @@ chmod +x predict.sh
 ## post-processing techniques:
 
 - fix typo of nd-cp
-- multiply cos-sim score with score from bm25, we pick score-range = [max-score - 2.6, max-score] and pick top 5 sentences for multiple answer for a question. 
+- multiply cos-sim score with score from bm25, we pick score-range = [max-score - 2.6, max-score] and pick top 5 sentences for a question with multiple answers . 
 
 
 ## Methods used but not work
 
-- Training Round 3
+- Training Round 3 for Sentence Transformer.
 - Pseudo Label: Improve our single model performace but hurt ensembel preformance.
 
 ## Contributors:
