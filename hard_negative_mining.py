@@ -14,9 +14,12 @@ if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_path", default="saved_model/bm25_Plus_04_06_model_full_manual_stopword", type=str)
+    parser.add_argument("--sentence_bert_path", default="", type=str, help="path to round 1 sentence bert model")
     parser.add_argument("--data_path", default="zac2021-ltr-data", type=str, help="path to input data")
     parser.add_argument("--save_path", default="pair_data", type=str)
     parser.add_argument("--top_k", default=20, type=str, help="top k hard negative mining")
+    parser.add_argument("--path_doc_refer", default="generated_data/doc_refers_saved.pkl", type=str, help="path to doc refers")
+    parser.add_argument("--path_legal", default="generated_data/legal_dict.json", type=str, help="path to legal dict")
     args = parser.parse_args()
 
     # load training data from json
@@ -29,26 +32,26 @@ if __name__ == '__main__':
     with open(args.model_path, "rb") as bm_file:
         bm25 = pickle.load(bm_file)
 
-    with open("saved_model/doc_refers_saved", "rb") as doc_refer_file:
+    with open(args.path_doc_refer, "rb") as doc_refer_file:
         doc_refers = pickle.load(doc_refer_file)
 
-    doc_path = os.path.join("legal_dict.json")
+    doc_path = os.path.join(args.path_legal)
     df = open(doc_path)
     doc_data = json.load(df)
     
     # load hard negative model
-    model = SentenceTransformer("saved_model_sen/vibert_pretrained_fulldata_50_e5_b32/contrative")
+    model = SentenceTransformer(args.sentence_bert_path)
 
     # add embedding for data
     # if you already have data with encoded sentence uncoment line 47 - 54
-    # import pickle
-    # embed_list = []
-    # for k, v in tqdm(doc_data.items()):
-    #     embed = model.encode(v['title'] + ' ' + v['text'])
-    #     doc_data[k]['embedding'] = embed
+    import pickle
+    embed_list = []
+    for k, v in tqdm(doc_data.items()):
+        embed = model.encode(v['title'] + ' ' + v['text'])
+        doc_data[k]['embedding'] = embed
 
-    # with open('legal_corpus_vibert_embedding.pkl', 'wb') as pkl:
-    #     pickle.dump(doc_data, pkl)
+    with open('legal_corpus_vibert_embedding.pkl', 'wb') as pkl:
+        pickle.dump(doc_data, pkl)
 
     with open('legal_corpus_vibert_embedding.pkl', 'rb') as pkl:
         data = pickle.load(pkl)

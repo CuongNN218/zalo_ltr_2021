@@ -52,7 +52,7 @@ if __name__ == '__main__':
     
     co_f.close()
     print(count)
-    exit()
+    # exit()
     print("Create legal dict from raw data")
     with open(os.path.join(args.save_dir, "legal_dict.json"), "w") as outfile:
         json.dump(save_dict, outfile)
