@@ -256,5 +256,16 @@ chmod +x predict.sh
 ./predict.sh
 ```
 
+## post-processing techniques:
+
+- fix typo of nd-cp
+- multiply cos-sim score with score from bm25, we pick score-range = [max-score - 2.6, max-score] and pick top 5 sentences for multiple answer for a question. 
+
+
+## Methods used but not work
+
+- Training Round 3
+- Pseudo Label: Improve our single model performace but hurt ensembel preformance.
+
 ## Contributors:
 Thanks our teamates for great works: [Dzung Le](https://github.com/dzunglt24), [Hong Nguyen](https://github.com/Hong7Cong)
