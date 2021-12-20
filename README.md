@@ -12,8 +12,8 @@ We use the pipepline in the picture below:
 Our pipeline is combination of BM25 and Sentence Transfromer. 
 Let us describe our approach briefly:
 
-- Step 1: We trained a BM25 model for searching similar pair. We used BM25 for create negative sentence pair for training Sentence Transformer in Step 3.
-- Step 1: We trained Masked Language Model using legal_corpus from training data. Models are used
+- Step 1: We trained a BM25 model for searching similar pair. We used BM25 to create negative sentence pairs for training Sentence Transformer in Step 3.
+- Step 1: We trained Masked Language Model using legal corpus from training data. Our masked languague models are
 ```
 VinAI/PhoBert-Large
 FPTAI/ViBert
@@ -27,7 +27,7 @@ FPTAI/ViBert
 ```
 - Step 4: Using 4 models from step 3 to generate corresponding hard negative sentences for training round 2 in step 5.
 - Step 5: Training 4 above models round 2.
-- Step 5: Ensemble 4 models from step 5.
+- Step 5: Ensemble 4 models obtained from step 5.
  
 ## Data
 Raw data is in ``zac2021-ltr-data``
